@@ -56,11 +56,19 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	_reactDom2.default.render(_react2.default.createElement(
-	    'h1',
-	    null,
-	    'Hello, mundo'
-	), document.getElementById('root'));
+	var MainContainer = _react2.default.createClass({
+	    displayName: 'MainContainer',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'h1',
+	            null,
+	            'hi'
+	        );
+	    }
+	});
+
+	_reactDom2.default.render(_react2.default.createElement(MainContainer, null), document.getElementById('root'));
 
 /***/ },
 /* 1 */
