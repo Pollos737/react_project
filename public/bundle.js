@@ -56,19 +56,23 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var MainContainer = _react2.default.createClass({
-	    displayName: 'MainContainer',
+	var Dropdown = __webpack_require__(180);
 
+	var Main = _react2.default.createClass({
+	    displayName: 'Main',
+
+	    getInitialState: function getInitialState() {
+	        return { city: "No City Chosen" };
+	    },
+	    changeCity: function changeCity(newCity) {
+	        this.setState({ city: newCity });
+	    },
 	    render: function render() {
-	        return _react2.default.createElement(
-	            'h1',
-	            null,
-	            'hi'
-	        );
+	        return _react2.default.createElement(Dropdown, { city: this.state.city, onChange: this.changeCity });
 	    }
 	});
 
-	_reactDom2.default.render(_react2.default.createElement(MainContainer, null), document.getElementById('root'));
+	_reactDom2.default.render(_react2.default.createElement(Main, null), document.getElementById('root'));
 
 /***/ },
 /* 1 */
@@ -21475,6 +21479,65 @@
 	var ReactMount = __webpack_require__(167);
 
 	module.exports = ReactMount.renderSubtreeIntoContainer;
+
+/***/ },
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Dropdown = _react2.default.createClass({
+	    displayName: "Dropdown",
+
+	    handleChange: function handleChange(e) {
+	        var city = e.target.value;
+	        this.props.onChange(city);
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            null,
+	            _react2.default.createElement(
+	                "h1",
+	                null,
+	                "City I want to go to: ",
+	                this.props.city
+	            ),
+	            _react2.default.createElement(
+	                "select",
+	                { id: "cities", onChange: this.handleChange },
+	                _react2.default.createElement(
+	                    "option",
+	                    { value: "New York" },
+	                    "New York"
+	                ),
+	                _react2.default.createElement(
+	                    "option",
+	                    { value: "Seattle" },
+	                    "Seattle"
+	                ),
+	                _react2.default.createElement(
+	                    "option",
+	                    { value: "Dallas" },
+	                    "Dallas"
+	                )
+	            )
+	        );
+	    }
+	});
+
+	module.exports = Dropdown;
 
 /***/ }
 /******/ ]);

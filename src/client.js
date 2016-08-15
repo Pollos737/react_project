@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+var Dropdown = require('./dropdown');
 
-var MainContainer = React.createClass({
+var Main = React.createClass({
+    getInitialState: function () {
+        return {city: "No City Chosen"};
+    },
+    changeCity: function (newCity) {
+      this.setState({city: newCity});
+    },
     render: function () {
-        return <h1>hi</h1>;
+        return (
+            <Dropdown city={this.state.city} onChange={this.changeCity}/>
+        );
     }
 });
 
-ReactDOM.render(
-    <MainContainer/>,
-    document.getElementById('root')
-);
+ReactDOM.render(<Main/>, document.getElementById('root'));
