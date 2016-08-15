@@ -105,12 +105,15 @@
 	        var rows = [];
 	        var lastCategory = null;
 	        this.props.products.forEach(function (product) {
+	            if (product.name.indexOf(this.props.filterText) === -1 || !product.stocked && this.props.inStockOnly) {
+	                return;
+	            }
 	            if (product.category !== lastCategory) {
 	                rows.push(_react2.default.createElement(ProductCategoryRow, { category: product.category, key: product.category }));
 	            }
 	            rows.push(_react2.default.createElement(ProductRow, { product: product, key: product.name }));
 	            lastCategory = product.category;
-	        });
+	        }.bind(this));
 	        return _react2.default.createElement(
 	            'table',
 	            null,
@@ -144,15 +147,29 @@
 	var SearchBar = _react2.default.createClass({
 	    displayName: 'SearchBar',
 
+	    handleChange: function handleChange() {
+	        this.props.onUserInput(this.refs.filterTextInput.value, this.refs.inStockOnlyInput.checked);
+	    },
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'form',
 	            null,
-	            _react2.default.createElement('input', { type: 'text', placeholder: 'Search...' }),
+	            _react2.default.createElement('input', {
+	                type: 'text',
+	                placeholder: 'Search...',
+	                value: this.props.filterText,
+	                ref: 'filterTextInput',
+	                onChange: this.handleChange
+	            }),
 	            _react2.default.createElement(
 	                'p',
 	                null,
-	                _react2.default.createElement('input', { type: 'checkbox' }),
+	                _react2.default.createElement('input', {
+	                    type: 'checkbox',
+	                    checked: this.props.inStockOnly,
+	                    ref: 'inStockOnlyInput',
+	                    onChange: this.handleChange
+	                }),
 	                ' ',
 	                'Only show products in stock'
 	            )
@@ -163,12 +180,34 @@
 	var FilterableProductTable = _react2.default.createClass({
 	    displayName: 'FilterableProductTable',
 
+	    getInitialState: function getInitialState() {
+	        return {
+	            filterText: '',
+	            inStockOnly: false
+	        };
+	    },
+
+	    handleUserInput: function handleUserInput(filterText, inStockOnly) {
+	        this.setState({
+	            filterText: filterText,
+	            inStockOnly: inStockOnly
+	        });
+	    },
+
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
 	            null,
-	            _react2.default.createElement(SearchBar, null),
-	            _react2.default.createElement(ProductTable, { products: this.props.products })
+	            _react2.default.createElement(SearchBar, {
+	                filterText: this.state.filterText,
+	                inStockOnly: this.state.inStockOnly,
+	                onUserInput: this.handleUserInput
+	            }),
+	            _react2.default.createElement(ProductTable, {
+	                products: this.props.products,
+	                filterText: this.state.filterText,
+	                inStockOnly: this.state.inStockOnly
+	            })
 	        );
 	    }
 	});
