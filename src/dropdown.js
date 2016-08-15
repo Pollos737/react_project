@@ -15,7 +15,6 @@ var Dropdown = React.createClass({
                     <option value="Seattle">Seattle</option>
                     <option value="Dallas">Dallas</option>
                 </select>
-
             </div>
         );
     }

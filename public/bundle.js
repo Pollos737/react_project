@@ -56,23 +56,126 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Dropdown = __webpack_require__(180);
+	var ProductCategoryRow = _react2.default.createClass({
+	    displayName: 'ProductCategoryRow',
 
-	var Main = _react2.default.createClass({
-	    displayName: 'Main',
-
-	    getInitialState: function getInitialState() {
-	        return { city: "No City Chosen" };
-	    },
-	    changeCity: function changeCity(newCity) {
-	        this.setState({ city: newCity });
-	    },
 	    render: function render() {
-	        return _react2.default.createElement(Dropdown, { city: this.state.city, onChange: this.changeCity });
+	        return _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	                'th',
+	                { colSpan: '2' },
+	                this.props.category
+	            )
+	        );
 	    }
 	});
 
-	_reactDom2.default.render(_react2.default.createElement(Main, null), document.getElementById('root'));
+	var ProductRow = _react2.default.createClass({
+	    displayName: 'ProductRow',
+
+	    render: function render() {
+	        var name = this.props.product.stocked ? this.props.product.name : _react2.default.createElement(
+	            'span',
+	            { style: { color: 'red' } },
+	            this.props.product.name
+	        );
+	        return _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	                'td',
+	                null,
+	                name
+	            ),
+	            _react2.default.createElement(
+	                'td',
+	                null,
+	                this.props.product.price
+	            )
+	        );
+	    }
+	});
+
+	var ProductTable = _react2.default.createClass({
+	    displayName: 'ProductTable',
+
+	    render: function render() {
+	        var rows = [];
+	        var lastCategory = null;
+	        this.props.products.forEach(function (product) {
+	            if (product.category !== lastCategory) {
+	                rows.push(_react2.default.createElement(ProductCategoryRow, { category: product.category, key: product.category }));
+	            }
+	            rows.push(_react2.default.createElement(ProductRow, { product: product, key: product.name }));
+	            lastCategory = product.category;
+	        });
+	        return _react2.default.createElement(
+	            'table',
+	            null,
+	            _react2.default.createElement(
+	                'thead',
+	                null,
+	                _react2.default.createElement(
+	                    'tr',
+	                    null,
+	                    _react2.default.createElement(
+	                        'th',
+	                        null,
+	                        'Name'
+	                    ),
+	                    _react2.default.createElement(
+	                        'th',
+	                        null,
+	                        'Price'
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'tbody',
+	                null,
+	                rows
+	            )
+	        );
+	    }
+	});
+
+	var SearchBar = _react2.default.createClass({
+	    displayName: 'SearchBar',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'form',
+	            null,
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Search...' }),
+	            _react2.default.createElement(
+	                'p',
+	                null,
+	                _react2.default.createElement('input', { type: 'checkbox' }),
+	                ' ',
+	                'Only show products in stock'
+	            )
+	        );
+	    }
+	});
+
+	var FilterableProductTable = _react2.default.createClass({
+	    displayName: 'FilterableProductTable',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(SearchBar, null),
+	            _react2.default.createElement(ProductTable, { products: this.props.products })
+	        );
+	    }
+	});
+
+	var PRODUCTS = [{ category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' }, { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' }, { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' }, { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' }, { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' }, { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' }];
+
+	_reactDom2.default.render(_react2.default.createElement(FilterableProductTable, { products: PRODUCTS }), document.getElementById('main'));
 
 /***/ },
 /* 1 */
@@ -21479,70 +21582,6 @@
 	var ReactMount = __webpack_require__(167);
 
 	module.exports = ReactMount.renderSubtreeIntoContainer;
-
-/***/ },
-/* 175 */,
-/* 176 */,
-/* 177 */,
-/* 178 */,
-/* 179 */,
-/* 180 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Dropdown = _react2.default.createClass({
-	    displayName: "Dropdown",
-
-	    handleChange: function handleChange(e) {
-	        var city = e.target.value;
-	        this.props.onChange(city);
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            null,
-	            _react2.default.createElement(
-	                "h1",
-	                null,
-	                "City I want to go to: ",
-	                this.props.city
-	            ),
-	            _react2.default.createElement(
-	                "select",
-	                { id: "cities", onChange: this.handleChange },
-	                _react2.default.createElement(
-	                    "option",
-	                    { value: "Default" },
-	                    "Please Choose"
-	                ),
-	                _react2.default.createElement(
-	                    "option",
-	                    { value: "New York" },
-	                    "New York"
-	                ),
-	                _react2.default.createElement(
-	                    "option",
-	                    { value: "Seattle" },
-	                    "Seattle"
-	                ),
-	                _react2.default.createElement(
-	                    "option",
-	                    { value: "Dallas" },
-	                    "Dallas"
-	                )
-	            )
-	        );
-	    }
-	});
-
-	module.exports = Dropdown;
 
 /***/ }
 /******/ ]);
